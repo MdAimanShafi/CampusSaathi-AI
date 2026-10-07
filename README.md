@@ -17,10 +17,12 @@ Event: MLH Hack Day, IIT Bhilai. Date: [EVENT DATE]. Help desk: [HELP DESK LOCAT
 
 Windows (PowerShell):
 ```powershell
-py -m venv .venv
+python -m venv .venv
 .venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 ```
+If `python` is not found, try `py -m venv .venv` instead. If your prompt already starts with another name like `(.venv)` before you begin, type `deactivate` first, or you will install into the wrong environment. After the activate line, your prompt should start with `(.venv)`.
+
 If PowerShell says "running scripts is disabled", run `Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass` and try the activate line again. It only affects this window.
 
 Mac / Linux:
