@@ -161,6 +161,12 @@ def _is_rate_limit(error):
     return getattr(error, "code", None) == 429 or "429" in text or "resource_exhausted" in text
 
 
+def _is_busy(error):
+    """Google's side is overloaded or had a hiccup (500, 502, 503, 504). Trying again usually works."""
+    text = str(error).lower()
+    return getattr(error, "code", None) in (500, 502, 503, 504) or "unavailable" in text or "500 internal" in text
+
+
 def _call_api(do_call):
     """Run one API call with spacing and retries. `do_call` is a function that makes the call."""
     global _last_call_time
@@ -173,15 +179,15 @@ def _call_api(do_call):
             _record_call()
             return result
         except Exception as error:
-            if not _is_rate_limit(error):
+            if not (_is_rate_limit(error) or _is_busy(error)):
                 raise
             if attempt == len(RETRY_WAITS):
                 raise RuntimeError(
-                    "Google says too many requests, even after 3 retries. "
+                    "Google is busy or says too many requests, even after 3 retries. "
                     "Wait a few minutes, then try again."
                 ) from error
             seconds = RETRY_WAITS[attempt]
-            print(f"Too many requests. Waiting {seconds} seconds, then trying again...")
+            print(f"Google is busy or says too many requests. Waiting {seconds} seconds, then trying again...")
             time.sleep(seconds)
         finally:
             _last_call_time = time.monotonic()
@@ -261,6 +267,8 @@ def describe_error(error):
         return "A package is missing. Fix: activate your virtual environment, then run: pip install -r requirements.txt"
     if _is_rate_limit(error):
         return "Too many requests. Wait a minute and try again. Do not share one key between people."
+    if _is_busy(error):
+        return "Google had a problem on its side. Wait a minute and try again."
     if "404" in low or "not found" in low:
         return f"Model not found. Check the model name (we use '{MODEL}') and GEMMA_MODEL in your .env."
     if "api key" in low or "api_key" in low or "401" in low or "403" in low or "permission" in low:
