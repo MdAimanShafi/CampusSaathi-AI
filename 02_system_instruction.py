@@ -16,7 +16,7 @@ import gemma_client
 question = "Why is the sky blue?"
 
 # The rule. Try changing it: "Answer like a pirate", "Answer in one sentence", and so on.
-rule = "You are a kind teacher for 10-year-old children. Use simple words. Answer in at most three sentences."
+rule = "You are a kind teacher for 10-year-old children. Use simple words. Answer like  lol man."
 
 print("--- Without a rule ---")
 print(gemma_client.ask(question))

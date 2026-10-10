@@ -1,7 +1,29 @@
+# Secrets — never commit
 .env
-.cache/
+.env.*
+!.env.example
+
+# Python
 __pycache__/
+*.py[cod]
+*.pyo
 .venv/
+venv/
+env/
+.pytest_cache/
+
+# Cache and generated
+.cache/
+*.log
+
+# Data (local persistence — not for git)
+data/
+
+# Build outputs
+frontend/dist/
+frontend/node_modules/
+
+# Misc
 notes/
 wheelhouse/
-.pytest_cache/
+*.tmp

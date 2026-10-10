@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0",
+  "name": "campus_saathi_ai",
+  "display_name": "CampusSaathi AI",
+  "description": "AI-powered smart campus platform for Kalinga University. Helps students report problems, track complaints, ask campus questions, and summarize notices using Gemma 4.",
+  "version": "1.0.0",
+  "author": "CampusSaathi Team — MLH Hack Day, IIT Bhilai",
+  "license": "MIT",
+  "model": "gemma-4-26b-a4b-it",
+  "entry_point": "campus_saathi/app.py",
+  "skills": [
+    {
+      "id": "campus_assistant",
+      "name": "Campus AI Assistant",
+      "description": "Answers student questions about Kalinga University campus facilities, hostel, canteen, library, transport, and more using Gemma 4.",
+      "input": { "type": "string", "description": "Student question about campus" },
+      "output": { "type": "string", "description": "Helpful campus guidance" }
+    },
+    {
+      "id": "complaint_analysis",
+      "name": "Complaint Analyzer",
+      "description": "Analyzes a student complaint and returns structured JSON with category, summary, priority, next action, and missing info.",
+      "input": {
+        "type": "object",
+        "properties": {
+          "category": { "type": "string" },
+          "location": { "type": "string" },
+          "description": { "type": "string" }
+        }
+      },
+      "output": {
+        "type": "object",
+        "properties": {
+          "category": { "type": "string" },
+          "summary": { "type": "string" },
+          "priority": { "type": "string", "enum": ["Low", "Medium", "High", "Critical"] },
+          "next_action": { "type": "string" }
+        }
+      }
+    },
+    {
+      "id": "notice_summarizer",
+      "name": "Smart Notice Summarizer",
+      "description": "Summarizes university notices and extracts dates, deadlines, and action items.",
+      "input": { "type": "string", "description": "Raw notice text (up to 3000 chars)" },
+      "output": {
+        "type": "object",
+        "properties": {
+          "summary": { "type": "string" },
+          "dates": { "type": "array", "items": { "type": "string" } },
+          "action_items": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    }
+  ],
+  "categories": [
+    "Canteen & Mess", "Washrooms", "Parking", "Hostel",
+    "Library", "Labs & Classrooms", "Transport", "Health & Safety", "Sports & Other"
+  ],
+  "links": {
+    "campus_facilities": "https://www.kalingauniversity.ac.in/campus-facilities",
+    "grievance_redressal": "https://kalingauniversity.ac.in/grievance-redressal",
+    "virtual_tour": "https://virtualtour.kalingauniversity.ac.in/"
+  }
+}

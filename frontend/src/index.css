@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --navy: #0a0e1a;
+  --navy2: #0f1628;
+  --cyan: #00d4ff;
+  --blue: #3b82f6;
+  --violet: #7c3aed;
+  --border: rgba(0,212,255,0.18);
+  --card: rgba(15,22,45,0.85);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--navy);
+  color: #e2e8f0;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--navy); }
+::-webkit-scrollbar-thumb { background: rgba(0,212,255,0.3); border-radius: 3px; }
+
+.glass {
+  background: var(--card);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.glow-text {
+  background: linear-gradient(90deg, #00d4ff, #3b82f6, #7c3aed);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.btn-primary {
+  @apply bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold px-6 py-3 rounded-xl
+         hover:opacity-90 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-cyan-400;
+}
+
+.btn-secondary {
+  @apply border border-cyan-500/30 text-cyan-400 font-semibold px-6 py-3 rounded-xl
+         hover:bg-cyan-500/10 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-cyan-400;
+}
+
+.input-field {
+  @apply w-full bg-navy-800/80 border border-cyan-500/20 text-slate-200 rounded-xl px-4 py-3
+         focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400/30
+         placeholder-slate-500 transition-colors;
+}
+
+.card {
+  @apply glass rounded-2xl p-6;
+}
+
+.section-title {
+  @apply text-cyan-400 font-bold text-lg border-l-4 border-cyan-400 pl-3 mb-4;
+}
+
+.status-badge {
+  @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in-up { animation: fadeInUp 0.5s ease forwards; }
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 10px rgba(0,212,255,0.2); }
+  50%       { box-shadow: 0 0 25px rgba(0,212,255,0.4); }
+}
+.animate-pulse-glow { animation: pulse-glow 3s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
